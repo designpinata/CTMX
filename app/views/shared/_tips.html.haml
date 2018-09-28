@@ -1,0 +1,34 @@
+.tips-container
+  %h2 Tips
+  %ul.tip-list
+    %li
+      .tip-content
+        Hermosas artesanías de la región, las señoras muy amables te explican el proceso de creación
+      .tip-time
+        hace 5 días
+      %ul.hearts
+        %li.heart
+        %li.heart
+        %li.heart
+        %li.heart
+        %li.heart
+    %li
+      .tip-content
+        Fue difícil conseguir una reservación en el hostal “La estancia”
+      .tip-time
+        hace 2 semanas
+      %ul.hearts
+        %li.heart
+        %li.heart
+        %li.heart
+  %form
+    %label Califica tu visita
+    %ul.heart-list
+      %li.heart-full
+      %li.heart-full
+      %li.heart-full
+      %li.heart-full
+      %li.heart-empty
+    %label ¿Tienes algún tip?
+    %input{ type: 'text', placeholder: "Escribir mensaje" }
+    %input{ type: 'submit', value: "Enviar mi tip"}

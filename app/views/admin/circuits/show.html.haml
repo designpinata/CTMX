@@ -1,0 +1,149 @@
+- content_for :title, "Circuito: #{@circuit.name}"
+.page-title
+  .title_left
+    %h3= yield :title
+  .title_right
+    .pull-right.text-right
+      %a.btn.btn-primary{ href: admin_circuits_path }= I18n.t('back')
+      %a.btn.btn-success{href: edit_admin_circuit_path(@circuit)}= I18n.t('edit')
+.clearfix
+.row
+  .col-md-12.col-sm-12.col-xs-12
+    .x_panel
+      .x_content
+        %div{"data-example-id" => "togglable-tabs", :role => "tabpanel"}
+        %ul.nav.nav-tabs.bar_tabs{:role => "tablist"}
+          %li.active{:role => "presentation"}
+            %a{"aria-expanded" => "true", "data-toggle" => "tab", :href => "#general", :role => "tab"} General
+          %li{:role => "presentation"}
+            %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#images", :role => "tab"} Imágenes
+          %li{:role => "presentation"}
+            %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#content", :role => "tab"} Contenido
+          %li{:role => "presentation"}
+            %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#gallery", :role => "tab"} Galería
+          %li{:role => "presentation"}
+            %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#totems", :role => "tab"} Totems
+          %li{:role => "presentation"}
+            %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#qrs", :role => "tab"} QRs de Totems
+        .tab-content
+          #general.tab-pane.active{"aria-labelledby" => "home-tab", :role => "tabpanel"}
+            %table.table
+              %tbody
+                %tr
+                  %th Nombre
+                  %td= @circuit.name
+                %tr
+                  %th Subtítulo
+                  %td= @circuit.subtitle
+                %tr
+                  %th Identificador
+                  %td= @circuit.shortcut
+                %tr
+                  %th Creado el
+                  %td= l @circuit.created_at, format: :long
+                %tr
+                  %th Última actualización
+                  %td
+                    hace
+                    = distance_of_time_in_words_to_now(@circuit.updated_at)
+          #images.tab-pane.fade{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+            %p
+              %b Imágen de cabecera
+            - if @circuit.header_image?
+              %p= image_tag @circuit.header_image.url(:thumb)
+            - else
+              %p Aún no se ha subido ninguna imágen de cabecera.
+            %p
+              %b Imágen de cabecera para contenido
+            - if @circuit.content_header_image?
+              %p= image_tag @circuit.content_header_image.url(:thumb)
+            - else
+              %p Aún no se ha subido ninguna imágen de cabecera para contenido.
+          #content.tab-pane.fade{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+            %table.table
+              %tbody
+                %tr
+                  %th Título
+                  %td= @circuit.content_title
+                %tr
+                  %th Subtítulo
+                  %td= @circuit.content_subtitle
+            - if @circuit.content?
+              = markdown(@circuit.content)
+            - else
+              %p Aún no se ha establecido contenido.
+          #gallery.tab-pane.fade{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+            - if @circuit.circuit_images.count > 0
+              .row
+                - @circuit.circuit_images.each do |image|
+                  .col-md-55
+                    .image.view.view-first
+                      %img{:alt => "image", :src => "#{image.image.url(:medium)}", :style => "width: 100%; display: block;"}/
+            - else
+              %p Aún no se ha subido ninguna imágen a la galería.
+          #totems.tab-pane.fade{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+            .table-responsive
+              %table.table.table-hover
+                %thead
+                  %tr
+                    %th #
+                    %th Identificador
+                    %th Nombre
+                    %th Circuito
+                    %th Dirección
+                    %th Acciones
+                %tbody
+                  - @circuit.totems.each_with_index do |totem, i|
+                    %tr
+                      %td= i + 1
+                      %td= totem.shortcut
+                      %td= totem.name
+                      %td= totem.circuit.name
+                      %td= totem.manual_address
+                      %td
+                        = link_to admin_totem_path(totem), class: "btn btn-primary btn-xs" do
+                          %i.fa.fa-folder
+                          = I18n.t('show')
+                        = link_to edit_admin_totem_path(totem), class: "btn btn-info btn-xs" do
+                          %i.fa.fa-pencil
+                          = I18n.t('edit')
+                        = link_to admin_totem_path(totem), method: :delete, data: { confirm: I18n.t('destroy_confirmation') }, class: "btn btn-danger btn-xs" do
+                          %i.fa.fa-trash-o
+                          = I18n.t('destroy')
+          #qrs.tab-pane.fade{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+            .row
+              .col-md-12
+                .pull-right
+                  %a.btn.btn-success#download-qrs{ href: "#" } Descargar todos
+                .clearfix
+            .row
+              - @circuit.totems.each do |totem|
+                .col-md-55
+                  .well.well-sm.text-center
+                    .qr-output{ id: "totem#{totem.id}", 'data-title': "#{totem.shortcut}.png" }
+                    %p.title= totem_shortcut_url(totem.circuit.shortcut, totem.shortcut, :only_path => false)
+                    - content_for :scripts do
+                      :javascript
+                        $("#totem#{totem.id}").qrcode({
+                          render: 'image',
+                          text: "#{totem_shortcut_url(totem.circuit.shortcut, totem.shortcut, :only_path => false)}",
+                          size: 500
+                        });
+- content_for :scripts do
+  :javascript
+    function downloadQrZip() {
+      var zip = new JSZip();
+      $("#qrs .well").each(function() {
+        var title = $(this).find('.qr-output').attr('data-title');
+        var imgData = $(this).find("img").attr('src').replace(/^data:image\/(png|jpg);base64,/, "");
+        zip.file(title, imgData, { base64: true });
+      });
+      zip.generateAsync({type:"blob"})
+      .then(function(content) {
+        saveAs(content, "#{@circuit.slug}.zip");
+      });
+    }
+    $("#download-qrs").on("click", function(e) {
+      e.preventDefault();
+      downloadQrZip();
+    });

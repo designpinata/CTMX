@@ -1,0 +1,42 @@
+- content_for :title, "Listado de Circuitos"
+.page-title
+  .title_left
+    %h3= yield :title
+  .title_right
+    .pull-right.text-right
+      %a.btn.btn-primary(href="#{new_admin_circuit_path}")
+        %i.fa.fa-plus
+        Crear nuevo
+.clearfix
+.row
+  .col-md-12.col-sm-12.col-xs-12
+    .x_panel
+      .x_content
+        .table-responsive
+          %table.table.table-hover
+            %thead
+              %tr
+                %th #
+                %th Identificador
+                %th Nombre
+                %th Subtitulo
+                %th Totems
+                %th Acciones
+            %tbody
+              - @circuits.each_with_index do |circuit, i|
+                %tr
+                  %td= i + 1
+                  %td= circuit.shortcut
+                  %td= circuit.name
+                  %td= circuit.subtitle
+                  %td= circuit.totems.count
+                  %td
+                    = link_to admin_circuit_path(circuit), class: "btn btn-primary btn-xs" do
+                      %i.fa.fa-folder
+                      = I18n.t('show')
+                    = link_to edit_admin_circuit_path(circuit), class: "btn btn-info btn-xs" do
+                      %i.fa.fa-pencil
+                      = I18n.t('edit')
+                    = link_to admin_circuit_path(circuit), method: :delete, data: { confirm: I18n.t('destroy_confirmation') }, class: "btn btn-danger btn-xs" do
+                      %i.fa.fa-trash-o
+                      = I18n.t('destroy')

@@ -1,0 +1,30 @@
+- content_for :title, "Imagen: #{@image.title}"
+.page-title
+  .title_left
+    %h3= yield :title
+  .title_right
+    .pull-right.text-right
+      %a.btn.btn-primary{ href: admin_images_path }= I18n.t('back')
+      %a.btn.btn-success{href: edit_admin_image_path(@image)}= I18n.t('edit')
+.clearfix
+.row
+  .col-md-12.col-sm-12.col-xs-12
+    .x_panel
+      .x_content
+        %table.table
+          %tbody
+            %tr
+              %th Título
+              %td= @image.title
+            %tr
+              %th Creado el
+              %td= l @image.created_at, format: :long
+            %tr
+              %th Última actualización
+              %td
+                hace
+                = distance_of_time_in_words_to_now(@image.updated_at)
+            %tr
+              %th Imagen
+              %td
+                = image_tag @image.image.url(:square)

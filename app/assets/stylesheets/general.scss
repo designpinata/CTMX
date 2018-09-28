@@ -1,0 +1,67 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #fafafa;
+  color: #636466;
+}
+.navbar {
+  border: none;
+  font-weight: 600;
+  &.navbar-default {
+    text-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+}
+.btn {
+  padding: 10px 30px;
+}
+.header-bg {
+  margin-top: -75px;
+  padding: 300px 0;
+  background-size: cover;
+  background-position: center center;
+}
+.content-header {
+  width: 450px;
+  h1 {
+    font-size: 32pt;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: 800;
+    line-height: 1.2;
+    text-shadow: 0 0 10px rgba(0,0,0,0.2);
+    span {
+      font-size: 28pt;
+      font-weight: 600;
+      display: block;
+    }
+  }
+  .separator {
+    width: 150px;
+    height: 2px;
+    background-color: #FFF;
+    margin: 20px 0;
+  }
+  p {
+    width: 450px;
+    color: #FFF;
+    font-size: 14pt;
+    margin-bottom: 50px;
+    text-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+}
+.carousel {
+  margin: 0 auto 75px;
+  width: 500px;
+  height: 500px;
+}
+#map {
+  height: 400px;
+}
+#circuit-grid img, #totem-grid img {
+  cursor: zoom-in;
+}
+@media (min-width: 768px) {
+  .row.vertical-align {
+    display: flex;
+    align-items: center;
+  }
+}

@@ -1,0 +1,188 @@
+- if @totem.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@totem.errors.count, "error")} prohibited this admin_totem from being saved:"
+    %ul
+      - @totem.errors.full_messages.each do |message|
+        %li= message
+= form_for @totem, url: (@totem.new_record? ? admin_totems_path : admin_totem_path(@totem)), html: { multipart: true, class: 'form-horizontal form-label-left' } do |f|
+  %div{"data-example-id" => "togglable-tabs", :role => "tabpanel"}
+  %ul.nav.nav-tabs.bar_tabs{:role => "tablist"}
+    %li.active{:role => "presentation"}
+      %a{"aria-expanded" => "true", "data-toggle" => "tab", :href => "#general", :role => "tab"} General
+    %li{:role => "presentation"}
+      %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#location", :role => "tab"} Ubicación
+    %li{:role => "presentation"}
+      %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#images", :role => "tab"} Imágenes
+    %li{:role => "presentation"}
+      %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#content", :role => "tab"} Contenido
+    %li{:role => "presentation"}
+      %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#gallery", :role => "tab"} Galería
+  .tab-content
+    #general.tab-pane.active{"aria-labelledby" => "home-tab", :role => "tabpanel"}
+      .form-group
+        = f.label :name, class: "control-label col-md-3"
+        .col-md-7
+          = f.text_field :name, class: 'form-control col-md-7 col-xs-12'
+      .form-group
+        = f.label :description, class: "control-label col-md-3"
+        .col-md-7
+          = f.text_field :description, class: 'form-control col-md-7 col-xs-12'
+      .form-group
+        = f.label :shortcut, class: "control-label col-md-3"
+        .col-md-7
+          = f.text_field :shortcut, class: 'form-control col-md-7 col-xs-12'
+      .form-group
+        = f.label :infographic_text, class: "control-label col-md-3"
+        .col-md-7
+          = f.text_field :infographic_text, class: 'form-control col-md-7 col-xs-12'
+      .form-group
+        = f.label :circuit_id, "Circuito", class: "control-label col-md-3"
+        .col-md-7
+          = f.collection_select :circuit_id, Circuit.all, :id, :name, {}, class: 'form-control col-md-7 col-xs-12'
+      .form-group
+        = f.label :hashtag, class: "control-label col-md-3"
+        .col-md-7
+          = f.text_field :hashtag, class: 'form-control col-md-7 col-xs-12'
+    #location.tab-pane{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+      .form-group
+        = f.label :manual_address, class: "control-label col-md-3"
+        .col-md-7
+          = f.text_field :manual_address, class: 'form-control col-md-7 col-xs-12'
+      .form-group
+        = f.label :location, class: "control-label col-md-3"
+        .col-md-7
+          = f.text_field :location, class: 'form-control col-md-7 col-xs-12'
+          = f.hidden_field :latitude
+          = f.hidden_field :longitude
+      #map
+    #images.tab-pane{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+      .form-group
+        = f.label :infographic, class: "control-label col-md-3"
+        .col-md-7
+          = f.file_field :infographic, class: "form-control totem-image"
+          .row
+            .col-md-6
+              - if @totem.infographic?
+                %p
+                  %b Imagen actual
+                %p= image_tag @totem.infographic.url(:thumb)
+            .col-md-6
+            .preview-container{ style: "display: none;" }
+              %p
+                %b Imagen por subir
+              %p
+                %img.image-preview{ width: "300px" }
+      .form-group
+        = f.label :main_image, class: "control-label col-md-3"
+        .col-md-7
+          = f.file_field :main_image, class: "form-control totem-image"
+          .row
+            .col-md-6
+              - if @totem.main_image?
+                %p
+                  %b Imagen actual
+                %p= image_tag @totem.main_image.url(:thumb)
+            .col-md-6
+            .preview-container{ style: "display: none;" }
+              %p
+                %b Imagen por subir
+              %p
+                %img.image-preview{ width: "300px" }
+      .form-group
+        = f.label :header_image, class: "control-label col-md-3"
+        .col-md-7
+          = f.file_field :header_image, class: "form-control totem-image"
+          .row
+            .col-md-6
+              - if @totem.header_image?
+                %p
+                  %b Imagen actual
+                %p= image_tag @totem.header_image.url(:thumb)
+            .col-md-6
+            .preview-container{ style: "display: none;" }
+              %p
+                %b Imagen por subir
+              %p
+                %img.image-preview{ width: "300px" }
+    #content.tab-pane{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+      = f.text_area :content, class: 'form-control col-md-12 col-xs-12'
+    #gallery.tab-pane{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+      .row#totem_images
+        = f.fields_for :totem_images do |totem_image|
+          = render 'totem_image_fields', f: totem_image
+      .row
+        .col-md-12.links
+          = link_to_add_association 'Agregar imagen', f, :totem_images, class: 'btn btn-info'
+  .ln_solid
+  .form-group
+    .col-md-9.col-sm-9.col-xs-12.col-md-offset-3
+      %a.btn.btn-primary{ href: admin_totems_path, data: { confirm: I18n.t('destroy_confirmation') } }= I18n.t('cancel')
+      = f.submit I18n.t('save'), class: 'btn btn-success'
+
+- content_for :scripts do
+  %script{:src => "//maps.google.com/maps/api/js?key=AIzaSyBqaIi337A-jIMcVIgz_fxCQBEB5fgpfwc", :type => "text/javascript"}
+  :javascript
+    var simplemde = new SimpleMDE({
+      element: $("#totem_content")[0],
+      spellChecker: false
+    });
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var $pc = $(input).parent().find(".preview-container");
+          $pc.find(".image-preview").attr('src', e.target.result);
+          $pc.show();
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    $(".totem-image").on("change", function() {
+      readURL(this);
+    });
+    $(document).on("change", ".gallery-image", function() {
+      readURL(this);
+    });
+
+    function setLatLngAdd(e) {
+      var lat = e.latLng.lat();
+      var lng = e.latLng.lng();
+      $("#totem_latitude").val(lat);
+      $("#totem_longitude").val(lng);
+    }
+    var map = new GMaps({
+      div: '#map',
+      lat: "#{@totem.latitude}",
+      lng: "#{@totem.longitude}",
+      zoom: 18
+    });
+    map.addMarker({
+      lat: "#{@totem.latitude}",
+      lng: "#{@totem.longitude}",
+      title: "#{@totem.name}",
+      draggable: true,
+      dragend: setLatLngAdd,
+      infoWindow: {
+        content: "<p>#{@totem.name}</p>"
+      }
+    });
+    $('#totem_location').on('keydown', function (e) {
+      if (e.keyCode == 13) {
+        e.preventDefault();
+        GMaps.geocode({
+          address: $('#totem_location').val().trim(),
+          callback: function(results, status){
+            if (status=='OK') {
+              var latlng = results[0].geometry.location;
+              map.setCenter(latlng.lat(), latlng.lng());
+              map.addMarker({
+                lat: latlng.lat(),
+                lng: latlng.lng(),
+                draggable: true,
+                dragend: setLatLngAdd
+              });
+            }
+          }
+        });
+      }
+    });

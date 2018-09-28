@@ -1,0 +1,24 @@
+- if @page.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@page.errors.count, "error")} prohibited this admin_page from being saved:"
+    %ul
+      - @page.errors.full_messages.each do |message|
+        %li= message
+= form_for @page, url: (@page.new_record? ? admin_pages_path : admin_page_path(@page)), html: { class: 'form-horizontal form-label-left' } do |f|
+  .form-group
+    = f.label :title, class: "control-label col-md-3"
+    .col-md-7
+      = f.text_field :title, class: 'form-control col-md-7 col-xs-12'
+  .form-group
+    = f.text_area :content, class: 'form-control col-md-12 col-xs-12'
+  .ln_solid
+  .form-group
+    .col-md-9.col-sm-9.col-xs-12.col-md-offset-3
+      %a.btn.btn-primary{ href: admin_pages_path, data: { confirm: I18n.t('destroy_confirmation') } }= I18n.t('cancel')
+      = f.submit I18n.t('save'), class: 'btn btn-success'
+- content_for :scripts do
+  :javascript
+    var simplemde = new SimpleMDE({
+      element: $("page_content")[0],
+      spellChecker: false
+    });

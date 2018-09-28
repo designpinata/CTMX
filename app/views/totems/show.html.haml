@@ -1,0 +1,175 @@
+- content_for :title, @totem.name
+#enlargeImageModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "enlargeImageModal", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-lg{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body
+        %img.enlargeImageModalSource{:src => "", :style => "width: 100%;"}/
+#totem
+  .container-fluid.header-bg{ style: "background-image: url('#{@totem.header_image.url(:original)}');"}
+    .container
+      .content-header
+        %h1= @totem.name
+        .separator
+        %p= @totem.description
+        .rating
+          - remaining = 5 - @totem.total_rating
+          - @totem.total_rating.times do
+            = image_tag 'totem/heart-full.png'
+          - remaining.times do
+            = image_tag 'totem/heart-empty.svg'
+        %a.btn.btn-success#infographic-btn{href: "#", "data-target": "#infographic-modal", "data-toggle": "modal"}= @totem.infographic_text
+
+  #map
+  %p.text-center.totem-nav
+    - unless @totem.first?
+      %a.btn.btn-success{ href: circuit_totem_path(@totem.circuit, @totem.previous) } Totem anterior
+    - unless @totem.last?
+      %a.btn.btn-success{ href: circuit_totem_path(@totem.circuit, @totem.next) } Siguiente totem
+  .container
+    .markdown-content
+      - if @totem.content?
+        = markdown(@totem.content)
+    #totem-grid.hidden-xs
+      - @totem.totem_images.each_slice(3).each do |image_group|
+        .row
+          - image_group.each do |image_totem|
+            .col-md-4
+              .well
+                = image_tag image_totem.image.url(:original), class: "img-responsive"
+    #totem-gallery.carousel.slide.hidden-md.hidden-sm.hidden-lg{"data-ride" => "carousel"}
+      .carousel-inner
+        - @totem.totem_images.each_with_index do |item, i|
+          %div{ class: "item " + (i == 0 ? "active" : "") }
+            =image_tag item.image.url(:original), class: "image-response"
+      %a.left.carousel-control{"data-slide" => "prev", :href => "#totem-gallery"}
+        %span.icon-prev.fa.fa-arrow-left
+      %a.right.carousel-control{"data-slide" => "next", :href => "#totem-gallery"}
+        %span.icon-next.fa.fa-arrow-right
+    .row
+      .col-md-12.tips-container
+        %h4 Tips
+        %ul.tip-list#paginate
+          - @totem.tips.approved.each do |tip|
+            %li.tip
+              %p= tip.content
+              %p.time
+                hace
+                = distance_of_time_in_words_to_now(tip.created_at)
+              %ul.tip-hearts
+                - tip.rate.times do
+                  %li.heart
+        = form_for @totem.tips.new, url: tip_circuit_totem_path(@totem.circuit, @totem) do |f|
+          %h5 Califica tu visita
+          = f.hidden_field :rate, class: 'rating form-control', data: { filled: "fa fa-heart fa-2x", empty: "fa fa-heart-o fa-2x" }, required: true
+          %h5
+            ¿Tienes algún tip?
+            %span (obligatorio)
+          = f.text_area :content, class: 'form-control', required: true
+          %br
+          %p= f.submit "Enviar tip", class: 'btn btn-success'
+      .col-md-12.instagram-container
+        %h4= "Sube tu foto con el hashtag ##{@totem.hashtag} en Instagram"
+        .row
+          .grid
+            .grid-sizer.col-md-4
+            - @totem.instagrams.approved.each do |instagram|
+              .col-md-4.grid-item
+                %blockquote.instagram-media{"data-instgrm-captioned" => "", "data-instgrm-permalink" => "#{instagram.link}", "data-instgrm-version" => "8", :style => " background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"}
+- content_for :infographic do
+  #infographic-modal.modal.fade.fullscreen.infographic{"aria-hidden" => "true", "aria-labelledby" => "infographic-modalLabel", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog
+      .modal-content
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+        .modal-body.text-center
+          = image_tag @totem.infographic(:original), class: 'img-responsive'
+- content_for :scripts do
+  %script{:async => "", :defer => "defer", :src => "//www.instagram.com/embed.js"}
+  :javascript
+    $(window).load(function(){
+      $('.grid').masonry({
+        itemSelector: '.grid-item', // use a separate class for itemSelector, other than .col-
+        columnWidth: '.grid-sizer',
+        percentPosition: true
+      });
+    });
+    var map;
+    $(document).on("turbolinks:load", function(){
+      $('#totem-grid img').on('click', function() {
+        $('.enlargeImageModalSource').attr('src', $(this).attr('src'));
+        $('#enlargeImageModal').modal('show');
+      });
+      if (window.location.hash && $(window.location.hash).length) {
+        $(window.location.hash).modal('show');
+      }
+      $("#infographic-btn").on("click", function(e) {
+        window.location.hash = $(this).attr('data-target');
+      });
+      $(".close").on("click", function(e) {
+        window.location.hash = "";
+      });
+      $('#instafeed').easyPaginate({
+        paginateElement: 'li',
+        elementsPerPage: 3,
+        effect: 'climb',
+        lastButton: false,
+        firstButton: false,
+        nextButtonText: "<i class='fa fa-arrow-right'></i>",
+        prevButtonText: "<i class='fa fa-arrow-left'></i>"
+      });
+      $('#paginate').easyPaginate({
+        paginateElement: 'li.tip',
+        elementsPerPage: 3,
+        effect: 'climb',
+        lastButton: false,
+        firstButton: false,
+        nextButtonText: "<i class='fa fa-arrow-right'></i>",
+        prevButtonText: "<i class='fa fa-arrow-left'></i>"
+      });
+      map = new GMaps({
+        div: '#map',
+        lat: "#{@totem.latitude}",
+        lng: "#{@totem.longitude}",
+        zoom: 18
+      });
+      map.addMarker({
+        lat: "#{@totem.latitude}",
+        lng: "#{@totem.longitude}",
+        title: "#{@totem.name}",
+        infoWindow: {
+          content: "<a href='#{circuit_totem_url(@totem.circuit, @totem)}' style='font-weight: 600;'>#{@totem.name}</a>"
+        },
+        icon: {
+          url:'http://maps.google.com/mapfiles/ms/icons/red.png',
+          labelOrigin: new google.maps.Point(15, 10)
+        },
+        label: "A"
+      });
+    });
+  - unless @totem.last?
+    :javascript
+      $(document).on("turbolinks:load", function(){
+        map.addMarker({
+          lat: "#{@totem.next.latitude}",
+          lng: "#{@totem.next.longitude}",
+          title: "#{@totem.next.name}",
+          infoWindow: {
+            content: "<a href='#{circuit_totem_url(@totem.circuit, @totem.next)}' style='font-weight: 600;'>#{@totem.next.name}</a>"
+          },
+          icon: {
+            url:'http://maps.google.com/mapfiles/ms/icons/blue.png',
+            labelOrigin: new google.maps.Point(15, 10)
+          },
+          label: "B"
+        });
+        map.drawRoute({
+          origin: ["#{@totem.latitude}", "#{@totem.longitude}"],
+          destination: ["#{@totem.next.latitude}", "#{@totem.next.longitude}"],
+          travelMode: 'walking',
+          strokeColor: '#CF1330',
+          strokeWeight: 6
+        });
+        map.fitZoom();
+      });

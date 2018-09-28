@@ -1,0 +1,24 @@
+- if @tip.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@tip.errors.count, "error")} prohibited this admin_tip from being saved:"
+    %ul
+      - @tip.errors.full_messages.each do |message|
+        %li= message
+= form_for @tip, url: admin_totem_tip_path(@tip.totem, @tip), html: { class: 'form-horizontal form-label-left' } do |f|
+  .form-group
+    = f.label :content, class: "control-label col-md-3"
+    .col-md-7
+      = f.text_field :content, class: 'form-control col-md-7 col-xs-12'
+  .form-group
+    = f.label :rate, class: "control-label col-md-3"
+    .col-md-7
+      = f.text_field :rate, class: 'form-control col-md-7 col-xs-12'
+  .form-group
+    = f.label :approved, class: "control-label col-md-3"
+    .col-md-7
+      = f.select :approved, [['Aprobado', true], ['No aprobado', false]], {}, class: 'form-control col-md-7 col-xs-12'
+  .ln_solid
+  .form-group
+    .col-md-9.col-sm-9.col-xs-12.col-md-offset-3
+      %a.btn.btn-primary{ href: admin_totem_path(@tip.totem), data: { confirm: I18n.t('destroy_confirmation') } }= I18n.t('cancel')
+      = f.submit I18n.t('save'), class: 'btn btn-success'

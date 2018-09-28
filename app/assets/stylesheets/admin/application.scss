@@ -1,0 +1,22 @@
+@import "gentelella";
+@import "gentelella-custom";
+@import "simplemde.min";
+#map {
+  height: 300px;
+  border: 1px solid #E6E9ED;
+}
+.tab-content > .tab-pane {
+  display: block;
+  height:0;
+  overflow:hidden;
+}
+
+.tab-content > .active {
+  display: block;
+  height:auto;
+}
+.qr-output {
+  img {
+    width: 100%;
+  }
+}

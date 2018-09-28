@@ -1,0 +1,37 @@
+- content_for :title, "Listado de respuestas de encuesta"
+.page-title
+  .title_left
+    %h3= yield :title
+.clearfix
+.row
+  .col-md-12.col-sm-12.col-xs-12
+    .x_panel
+      .x_content
+        .table-responsive
+          %table.table.table-hover
+            %thead
+              %tr
+                %th #
+                %th Nombre
+                %th E-mail
+                %th Procedencia
+                %th Gusto por viajar
+                %th Acciones
+            %tbody
+              - @polls.each_with_index do |poll, i|
+                %tr
+                  %td= i + 1
+                  %td= poll.name
+                  %td= poll.email
+                  %td= poll.origin
+                  %td= poll.travel_preference_list.map(&:titleize).join(", ")
+                  %td
+                    = link_to admin_poll_path(poll), class: "btn btn-primary btn-xs" do
+                      %i.fa.fa-folder
+                      = I18n.t('show')
+                    = link_to edit_admin_poll_path(poll), class: "btn btn-info btn-xs" do
+                      %i.fa.fa-pencil
+                      = I18n.t('edit')
+                    = link_to admin_poll_path(poll), method: :delete, data: { confirm: I18n.t('destroy_confirmation') }, class: "btn btn-danger btn-xs" do
+                      %i.fa.fa-trash-o
+                      = I18n.t('destroy')

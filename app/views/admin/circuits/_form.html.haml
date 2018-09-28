@@ -1,0 +1,139 @@
+- if @circuit.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@circuit.errors.count, "error")} prohibited this admin_totem from being saved:"
+    %ul
+      - @circuit.errors.full_messages.each do |message|
+        %li= message
+= form_for @circuit, url: (@circuit.new_record? ? admin_circuits_path : admin_circuit_path(@circuit)), html: { multipart: true, class: 'form-horizontal form-label-left' } do |f|
+  %div{"data-example-id" => "togglable-tabs", :role => "tabpanel"}
+  %ul.nav.nav-tabs.bar_tabs{:role => "tablist"}
+    %li.active{:role => "presentation"}
+      %a{"aria-expanded" => "true", "data-toggle" => "tab", :href => "#general", :role => "tab"} General
+    %li{:role => "presentation"}
+      %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#images", :role => "tab"} Imágenes
+    %li{:role => "presentation"}
+      %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#content", :role => "tab"} Contenido
+    %li{:role => "presentation"}
+      %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#gallery", :role => "tab"} Galería
+    %li{:role => "presentation"}
+      %a{"aria-expanded" => "false", "data-toggle" => "tab", :href => "#totems", :role => "tab"} Ordenar totems
+  .tab-content
+    #general.tab-pane.active{"aria-labelledby" => "home-tab", :role => "tabpanel"}
+      .form-group
+        = f.label :name, class: "control-label col-md-3"
+        .col-md-7
+          = f.text_field :name, class: 'form-control col-md-7 col-xs-12'
+      .form-group
+        = f.label :subtitle, class: "control-label col-md-3"
+        .col-md-7
+          = f.text_field :subtitle, class: 'form-control col-md-7 col-xs-12'
+      .form-group
+        = f.label :shortcut, class: "control-label col-md-3"
+        .col-md-7
+          = f.text_field :shortcut, class: 'form-control col-md-7 col-xs-12'
+    #images.tab-pane{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+      .form-group
+        = f.label :header_image, class: "control-label col-md-3"
+        .col-md-7
+          = f.file_field :header_image, class: "form-control circuit-image"
+          .row
+            .col-md-6
+              - if @circuit.header_image?
+                %p
+                  %b Imagen actual
+                %p= image_tag @circuit.header_image.url(:thumb)
+            .col-md-6
+            .preview-container{ style: "display: none;" }
+              %p
+                %b Imagen por subir
+              %p
+                %img.image-preview{ width: "300px" }
+      .form-group
+        = f.label :content_header_image, class: "control-label col-md-3"
+        .col-md-7
+          = f.file_field :content_header_image, class: "form-control circuit-image"
+          .row
+            .col-md-6
+              - if @circuit.content_header_image?
+                %p
+                  %b Imagen actual
+                %p= image_tag @circuit.content_header_image.url(:thumb)
+            .col-md-6
+            .preview-container{ style: "display: none;" }
+              %p
+                %b Imagen por subir
+              %p
+                %img.image-preview{ width: "300px" }
+    #content.tab-pane{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+      .form-group
+        = f.label :content_title, class: "control-label col-md-3"
+        .col-md-7
+          = f.text_field :content_title, class: 'form-control col-md-7 col-xs-12'
+      .form-group
+        = f.label :content_subtitle, class: "control-label col-md-3"
+        .col-md-7
+          = f.text_field :content_subtitle, class: 'form-control col-md-7 col-xs-12'
+      .form-group
+        = f.text_area :content, class: 'form-control col-md-12 col-xs-12'
+    #gallery.tab-pane{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+      .row#totem_images
+        = f.fields_for :circuit_images do |circuit_image|
+          = render 'circuit_image_fields', f: circuit_image
+      .row
+        .col-md-12.links
+          = link_to_add_association 'Agregar imagen', f, :circuit_images, class: 'btn btn-info'
+    #totems.tab-pane{"aria-labelledby" => "profile-tab", :role => "tabpanel"}
+      .table-responsive
+        %table.table.table-hover
+          %thead
+            %tr
+              %th #
+              %th Identificador
+              %th Nombre
+              %th Ubicación
+          %tbody{ data: { url: sort_admin_totems_path } }
+            - @circuit.totems.each do |totem|
+              %tr{style: "cursor: move;", id: dom_id(totem) }
+                %td= totem.position
+                %td= totem.shortcut
+                %td= totem.name
+                %td= totem.location
+
+  .ln_solid
+  .form-group
+    .col-md-9.col-sm-9.col-xs-12.col-md-offset-3
+      %a.btn.btn-primary{ href: admin_circuits_path, data: { confirm: I18n.t('destroy_confirmation') } }= I18n.t('cancel')
+      = f.submit I18n.t('save'), class: 'btn btn-success'
+
+- content_for :scripts do
+  :javascript
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var $pc = $(input).parent().find(".preview-container");
+          $pc.find(".image-preview").attr('src', e.target.result);
+          $pc.show();
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    $(".circuit-image").on("change", function() {
+      readURL(this);
+    });
+    $(document).on("change", ".gallery-image", function() {
+      readURL(this);
+    });
+    $("tbody").sortable({
+      update: function(e, ui) {
+        Rails.ajax({
+          url: $(this).data("url"),
+          type: "PATCH",
+          data: $(this).sortable('serialize'),
+        });
+      }
+    });
+    var simplemde = new SimpleMDE({
+      element: $("circuit_content")[0],
+      spellChecker: false
+    });

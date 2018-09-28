@@ -1,0 +1,37 @@
+#circuit {
+  .circuit-invite {
+    img {
+      padding: 15px 0 25px;
+    }
+  }
+  .totems-container {
+    h2 {
+      font-size: 24pt;
+      text-transform: uppercase;
+      color: #FAB93E;
+      font-weight: 800;
+      padding: 75px 0 50px;
+      img {
+        vertical-align: middle;
+      }
+    }
+    .well {
+      overflow: hidden;
+      border-radius: 15px;
+      padding: 0;
+      background-color: #FFF;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.24);
+      a {
+        text-decoration: none;
+        color: #222;
+      }
+      p {
+        font-weight: 800;
+        font-size: 16pt;
+        padding: 15px;
+        margin: 0;
+      }
+    }
+  }
+}

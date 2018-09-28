@@ -1,0 +1,35 @@
+- content_for :title, "Respuesta de #{@poll.name}"
+.page-title
+  .title_left
+    %h3= yield :title
+  .title_right
+    .pull-right.text-right
+      %a.btn.btn-primary{ href: admin_polls_path }= I18n.t('back')
+      %a.btn.btn-success{href: edit_admin_poll_path(@poll)}= I18n.t('edit')
+.clearfix
+.row
+  .col-md-12.col-sm-12.col-xs-12
+    .x_panel
+      .x_content
+        %table.table
+          %tbody
+            %tr
+              %th Nombre
+              %td= @poll.name
+            %tr
+              %th Description
+              %td= @poll.email
+            %tr
+              %th Preferencia al viajar
+              %td
+                %ul.list-group
+                  - @poll.travel_preference_list.each do |preference|
+                    %li.list-group-item= preference.titleize
+            %tr
+              %th Creado el
+              %td= l @poll.created_at, format: :long
+            %tr
+              %th Última actualización
+              %td
+                hace
+                = distance_of_time_in_words_to_now(@poll.updated_at)

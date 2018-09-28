@@ -1,0 +1,25 @@
+!!! 5
+%html
+  %head
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %link{:href => "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700", :rel => "stylesheet"}/
+    %title
+      = yield :title
+      | Circuitos Turísticos MX
+    = csrf_meta_tags
+    %script{:src => "//maps.google.com/maps/api/js?key=AIzaSyBqaIi337A-jIMcVIgz_fxCQBEB5fgpfwc", :type => "text/javascript"}
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+
+  %body
+    = yield :infographic
+    - flash.each do |key, value|
+      %div{:class => flash_class(key) + " alert alert-dismissible fade in", :role => "alert"}
+        %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        = value
+    = render 'shared/header'
+    = yield
+    = render 'shared/footer'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = yield :scripts

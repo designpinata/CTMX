@@ -1,0 +1,38 @@
+.navbar.nav_title{:style => "border: 0;"}
+  %a.site_title{:href => "#"}
+    = image_tag "admin/mx-logo.svg", height: "35px"
+    %span Circuitos MX
+.clearfix
+.profile.clearfix
+  .profile_info
+    %span Bienvenido,
+    %h2 Alejandro AR
+%br/
+#sidebar-menu.main_menu_side.hidden-print.main_menu
+  .menu_section
+    %h3 Menu
+    %ul.nav.side-menu
+      %li{ :class => current_class?("/admin/dashboard") }
+        %a{:href => admin_dashboard_path }
+          %i.fa.fa-laptop
+          Dashboard
+      %li{ :class => current_class?("/admin/circuits") }
+        %a{:href => admin_circuits_path }
+          %i.fa.fa-map-o
+          Circuitos
+      %li{ :class => current_class?("/admin/totems") }
+        %a{:href => admin_totems_path }
+          %i.fa.fa-bookmark-o
+          Totems
+      %li{ :class => current_class?("/admin/poll") }
+        %a{:href => admin_polls_path }
+          %i.fa.fa-pencil-square-o
+          Encuesta
+      %li{ :class => current_class?("/admin/pages") }
+        %a{:href => admin_pages_path }
+          %i.fa.fa-sticky-note-o
+          Páginas
+      %li{ :class => current_class?("/admin/images") }
+        %a{:href => admin_images_path }
+          %i.fa.fa-image
+          Imágenes

@@ -1,0 +1,9 @@
+.col-md-55.nested-fields
+  .image.view.view-first
+    .field
+      - if f.object.image?
+        = image_tag f.object.image.url(:square), sytle: 'width: 100%; display: block;'
+      .preview-container{ style: "display: none" }
+        %img.image-preview{ style: "width: 100%; display: block;" }
+      = f.file_field :image, class: 'gallery-image form-control'
+    = link_to_remove_association "<i class='fa fa-times'></i>".html_safe, f, class: 'btn btn-xs btn-danger', style: "position: absolute; top: 0; right: 0; margin: 0;"

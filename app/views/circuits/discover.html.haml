@@ -1,0 +1,43 @@
+- content_for :title, @circuit.content_title
+#enlargeImageModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "enlargeImageModal", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-lg{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body
+        %img.enlargeImageModalSource{:src => "", :style => "width: 100%;"}/
+#circuit
+  .container-fluid.header-bg{ style: "background-image: url('#{@circuit.header_image.url(:original)}');"}
+    .container
+      .content-header
+        %h1= yield :title
+        .separator
+        %p= @circuit.content_subtitle
+        %p
+          %a.btn.btn-success{href: circuit_path(@circuit) }= "Ver totems de #{@circuit.name}"
+  .container
+    .markdown-content
+      = markdown(@circuit.content)
+    #circuit-grid.hidden-xs
+      - @circuit.circuit_images.each_slice(3).each do |image_group|
+        .row
+          - image_group.each do |image_circuit|
+            .col-md-4
+              .well
+                = image_tag image_circuit.image.url(:original), class: "img-responsive"
+    #circuit-gallery.carousel.slide.hidden-md.hidden-sm.hidden-lg{"data-ride" => "carousel"}
+      .carousel-inner
+        - @circuit.circuit_images.each_with_index do |item, i|
+          %div{ class: "item " + (i == 0 ? "active" : "") }
+            =image_tag item.image.url(:original), class: "image-response"
+      %a.left.carousel-control{"data-slide" => "prev", :href => "#circuit-gallery"}
+        %span.icon-prev.fa.fa-arrow-left
+      %a.right.carousel-control{"data-slide" => "next", :href => "#circuit-gallery"}
+        %span.icon-next.fa.fa-arrow-right
+- content_for :scripts do
+  :javascript
+    $('#circuit-grid img').on('click', function() {
+      $('.enlargeImageModalSource').attr('src', $(this).attr('src'));
+      $('#enlargeImageModal').modal('show');
+    });

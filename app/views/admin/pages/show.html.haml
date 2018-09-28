@@ -1,0 +1,36 @@
+- content_for :title, "Página: #{@page.title}"
+.page-title
+  .title_left
+    %h3= yield :title
+  .title_right
+    .pull-right.text-right
+      %a.btn.btn-primary{ href: admin_pages_path }= I18n.t('back')
+      %a.btn.btn-success{href: edit_admin_page_path(@page)}= I18n.t('edit')
+.clearfix
+.row
+  .col-md-12.col-sm-12.col-xs-12
+    .x_panel
+      .x_content
+        %table.table
+          %tbody
+            %tr
+              %th Título
+              %td= @page.title
+            %tr
+              %th Slug
+              %td= @page.slug
+            %tr
+              %th URL
+              %td= page_url(@page, :only_path => false)
+            %tr
+              %th Creado el
+              %td= l @page.created_at, format: :long
+            %tr
+              %th Última actualización
+              %td
+                hace
+                = distance_of_time_in_words_to_now(@page.updated_at)
+        - if @page.content?
+          = markdown(@page.content)
+        - else
+          %p Aún no se ha establecido contenido.

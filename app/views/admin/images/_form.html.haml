@@ -1,0 +1,49 @@
+- if @image.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@image.errors.count, "error")} prohibited this admin_image from being saved:"
+    %ul
+      - @image.errors.full_messages.each do |message|
+        %li= message
+= form_for @image, url: (@image.new_record? ? admin_images_path : admin_image_path(@image)), html: { class: 'form-horizontal form-label-left' } do |f|
+  .form-group
+    = f.label :title, class: "control-label col-md-3"
+    .col-md-7
+      = f.text_field :title, class: 'form-control col-md-7 col-xs-12'
+  .form-group
+    = f.label :image, class: "control-label col-md-3"
+    .col-md-7
+      = f.file_field :image, class: 'form-control image col-md-7 col-xs-12'
+      .row
+        .col-md-6
+          - if @image.image?
+            %p
+              %b Imagen actual
+            %p= image_tag @image.image.url(:square)
+        .col-md-6
+          .preview-container{ style: "display: none;" }
+            %p
+              %b Imagen por subir
+            %p
+              %img.image-preview.img-responsive{ width: "300px" }
+  .ln_solid
+  .form-group
+    .col-md-9.col-sm-9.col-xs-12.col-md-offset-3
+      %a.btn.btn-primary{ href: admin_images_path, data: { confirm: I18n.t('destroy_confirmation') } }= I18n.t('cancel')
+      = f.submit I18n.t('save'), class: 'btn btn-success'
+
+- content_for :scripts do
+  :javascript
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var $pc = $(input).parent().find(".preview-container");
+          $pc.find(".image-preview").attr('src', e.target.result);
+          $pc.show();
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    $(".image").on("change", function() {
+      readURL(this);
+    });

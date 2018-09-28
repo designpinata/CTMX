@@ -1,0 +1,39 @@
+- if @poll.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@poll.errors.count, "error")} prohibited this admin_poll from being saved:"
+    %ul
+      - @poll.errors.full_messages.each do |message|
+        %li= message
+= form_for @poll, url: admin_poll_path(@poll), html: { class: 'form-horizontal form-label-left' } do |f|
+  .form-group
+    = f.label :name, class: "control-label col-md-3"
+    .col-md-7
+      = f.text_field :name, class: 'form-control col-md-7 col-xs-12'
+  .form-group
+    = f.label :email, class: "control-label col-md-3"
+    .col-md-7
+      = f.text_field :email, class: 'form-control col-md-7 col-xs-12'
+  .form-group
+    = f.label :origin, class: "control-label col-md-3"
+    .col-md-7
+      = f.text_field :origin, class: 'form-control col-md-7 col-xs-12'
+  .form-group
+    %label.col-md-3.col-sm-3.col-xs-12.control-label Preferencias al viajar
+    .col-md-7.col-sm-7.col-xs-12
+      .checkbox
+        = f.check_box :travel_preference_list, { class: 'flat', multiple: true }, 'aire libre', nil
+        Aire Libre
+      .checkbox
+        = f.check_box :travel_preference_list, { class: 'flat', multiple: true }, 'museos', nil
+        Museos
+      .checkbox
+        = f.check_box :travel_preference_list, { class: 'flat', multiple: true }, 'festivales', nil
+        Festivales
+      .checkbox
+        = f.check_box :travel_preference_list, { class: 'flat', multiple: true }, 'comida', nil
+        Comida
+  .ln_solid
+  .form-group
+    .col-md-9.col-sm-9.col-xs-12.col-md-offset-3
+      %a.btn.btn-primary{ href: admin_polls_path, data: { confirm: I18n.t('destroy_confirmation') } }= I18n.t('cancel')
+      = f.submit I18n.t('save'), class: 'btn btn-success'

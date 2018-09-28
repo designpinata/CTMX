@@ -1,0 +1,7 @@
+- content_for :title, @page.title
+- content_for :inverse, true
+#page
+  .container
+    .markdown-content.no-padding
+      %h1= @page.title
+      = markdown(@page.content)

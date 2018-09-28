@@ -1,0 +1,108 @@
+#home {
+  .header-bg {
+    background-image: image-url('home/background.png');
+    padding: 300px 0 0;
+    .content-header {
+      width: 100%;
+      .logo {
+        padding: 0 0 25px;
+      }
+      h2 {
+        font-family: 'Aquino';
+        font-weight: 500;
+        color: #FFF;
+        font-size: 30pt;
+      }
+      p {
+        width: 75%;
+        margin: 0 auto;
+        font-weight: 800;
+      }
+      .guy {
+        padding: 75px 0 15px;
+      }
+    }
+  }
+  .subheader {
+    background-color: #D01E3B;
+    text-align: center;
+    position: relative;
+    h3 {
+      margin: 0;
+      font-weight: 600;
+      color: #FFF;
+      padding: 15px 0 40px;
+    }
+    a {
+      font-family: 'Aquino';
+      display: inline-block;
+      background-color: #F4B932;
+      color: #FFF;
+      text-decoration: none;
+      font-size: 26pt;
+      padding: 10px 15px;
+      position: absolute;
+      left: 50%;
+      width: auto;
+      transform: translateX(-50%);
+      bottom: -40px;
+    }
+  }
+  .presentation {
+    padding: 50px 0 75px;
+    p {
+      padding-top: 30px;
+      font-size: 20pt;
+      line-height: 1.5;
+    }
+  }
+  .content {
+    padding-top: 100px;
+    .row {
+      padding: 25px 0;
+    }
+    .border {
+      border-left: 10px solid #F9B749;
+    }
+    .big {
+      h3 {
+        font-size: 22pt;
+        text-transform: uppercase;
+        line-height: 1.5;
+        margin: 0;
+      }
+      p {
+        padding-top: 0;
+        font-size: 16pt;
+        font-weight: 200;
+      }
+    }
+    h4 {
+      font-size: 16pt;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    p {
+      font-size: 12pt;
+      padding: 10px 0;
+    }
+    img {
+      vertical-align: top;
+    }
+  }
+  .instagram-container {
+    z-index: 10;
+    background-color: #FFF;
+    .row {
+      padding: 15px 0;
+    }
+  }
+  .background-margin {
+    background-color: #F4B932;
+    height: 750px;
+    position: absolute;
+    width: 100%;
+    margin-top: -680px;
+    z-index: 1;
+  }
+}

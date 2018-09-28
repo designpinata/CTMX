@@ -1,0 +1,64 @@
+- content_for :title, "Inicio"
+#home
+  .container-fluid.header-bg.text-center
+    .container
+      .content-header
+        .logo
+          = image_tag "home/logo.png"
+        %h2
+          RECORRE LOS SITIOS QUE
+          %br MARCARON LA HISTORIA
+        %p Explora y conoce de una manera interactiva los puntos de interés que crearon la historia y tradiciones de un lugar y sus habitantes.
+        = image_tag "home/guy.png", class: 'guy'
+  .subheader
+    %h3 ¡Descubre y comparte tips del destino con otras personas!
+    %a{href: "#"} ¡Inicia tu circuitO!
+  .container.content
+    .row
+      .col-md-2
+        = image_tag "home/patzcuaro-logo.png", class: 'img-responsive'
+      .col-md-10.border.big
+        %h3
+          EL MÁGICO
+          %b PÁTZCUARO
+        %p Explora el misticismo y la atmosféra de éste bello pueblo mágico michoacano, centro ceremonial del señorío de los Huacusechas,  la tierra de los indígenas que los españoles llamaron tarascos, la cultura purépecha permanece viva en sus templos, en su lengua, en sus sabores, artesanías y tradiciones de los habitantes que con mucho orgullo transmiten sus raíces indígenas.
+    .row
+      .col-md-12
+        %h4
+          LO QUE
+          %b DEBES SABER
+        %p Pátzcuaro fue una de las primeras ciudades que fundaron los purépechas, en el año 1300.  La tradición cuenta que fue fundada por los caciques chichimecas. En esta época, habitaban el lago y sus alrededores 3 grupos indígenas que contínuamente estaban combatiendo, “los coringuaro”, “los isleños” y  “los chichimecas” los que tenían como deidad principal al dios Curicaveri y a la diosa Cueráppari. El reinado tarasco se inaugura con Tariácuri, primer cacique con el título de Caltzontzin, equivalente a monarca.
+        %p Pátzcuaro fué la capital y gran centro ceremonial del pueblo purépecha y en 1522, al momento de la llegada de los españoles, la capital se había trasladado a Tzintzuntzan, y subsistía en Pátzcuaro solamente un centro  ceremonial escasamente poblado. El obispo español Vasco de Quiroga fue quien llevó a indios y familias de españoles a darle vida al lugar y una gran labor episcopal, es por eso que algunos es considerado como el “verdadero fundador de Pátzcuaro”.
+    .row.text-center
+      .col-md-12
+        %h3= "Inicia Circuito MX #{@main_circuit.name}"
+        %p= image_tag "shared/circuit_bar.png"
+    .row
+      .col-md-12
+        .row
+          .col-md-2
+          .col-md-8.text-center.instagram-container
+            %h2 #CIRCUITOSTURISTICOSMX
+            .row
+              .col-md-4
+                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
+              .col-md-4
+                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
+              .col-md-4
+                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
+            .row
+              .col-md-4
+                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
+              .col-md-4
+                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
+              .col-md-4
+                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
+            .row
+              .col-md-4
+                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
+              .col-md-4
+                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
+              .col-md-4
+                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
+          .col-md-2
+  .background-margin

@@ -1,0 +1,66 @@
+#footer
+  .container
+    .logo-container
+      = image_tag "shared/logo_icon.png"
+  .container.text-center.copy-footer
+    %h3 ¡TE AYUDAMOS A CONOCER MÁS!
+    %p
+      Queremos compartir más Destinos MX contigo, recibe noticias de nuevos
+      %br
+      Circuitos MX y muchos tips para recorrer y conocer más de México.
+  .red
+    .container.footer-form
+      .row
+        .col-md-3
+        .col-md-6
+          .well
+            = form_for Poll.new, html: { class: 'form-horizontal form-label-left' } do |f|
+              .form-fields
+                = f.text_field :name, class: 'form-control', placeholder: 'Nombre'
+                = f.text_field :email, class: 'form-control', placeholder: 'E-mail'
+                = f.text_field :origin, class: 'form-control', placeholder: 'Procedencia'
+              %div
+                .row
+                  .col-md-12
+                    %label.control-label ¿Qué te gusta de viajar?
+                .row
+                  .col-md-6
+                    .checkbox
+                      = f.check_box :travel_preference_list, { class: 'form-check-input', multiple: true }, 'aire libre', nil
+                      = f.label "travel_preference_list_aire_libre", "Aire Libre"
+                    .checkbox
+                      = f.check_box :travel_preference_list, { class: 'form-check-input', multiple: true }, 'museos', nil
+                      = f.label "travel_preference_list_museos", "Museos"
+                  .col-md-6
+                    .checkbox
+                      = f.check_box :travel_preference_list, { class: 'form-check-input', multiple: true }, 'festivales', nil
+                      = f.label "travel_preference_list_festivales", "Festivales"
+                    .checkbox
+                      = f.check_box :travel_preference_list, { class: 'form-check-input', multiple: true }, 'comida', nil
+                      = f.label "travel_preference_list_comida", "Comida"
+              .submit.text-center
+                = f.submit I18n.t('send_poll'), class: 'btn btn-success'
+      .col-md-3
+  .container-fluid.footer-bottom
+    .logo.text-center
+      = image_tag "home/logo.png", width: 200
+    .footer-links-container
+      .footer-links-container-inner
+        %ul.footer-links
+          - circuit = Circuit.first
+          %li
+            = link_to circuit do
+              = image_tag "shared/location.svg"
+              = "Circuito #{circuit.name}"
+          %li
+            = link_to Page.find_by(title: "Políticas de Privacidad") do
+              = image_tag "shared/police.svg"
+              = "Políticas de Privacidad"
+          %li
+            = link_to Page.find_by(title: "Contacto") do
+              = image_tag "shared/contact.svg"
+              = "Contacto"
+          %li
+            = link_to sitemap_path do
+              = image_tag "shared/mapa.svg"
+              = "Mapa del Sitio"

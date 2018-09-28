@@ -1,0 +1,12 @@
+.navbar {
+  text-transform: uppercase;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar-default .navbar-collapse {
+        background-color: #333;
+     }
+ }

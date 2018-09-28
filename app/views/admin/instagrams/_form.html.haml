@@ -1,0 +1,40 @@
+- if @instagram.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@instagram.errors.count, "error")} prohibited this admin_instagram from being saved:"
+    %ul
+      - @instagram.errors.full_messages.each do |message|
+        %li= message
+= form_for @instagram, url: admin_totem_instagram_path(@instagram.totem, @instagram), html: { class: 'form-horizontal form-label-left' } do |f|
+  .form-group
+    = f.label :user_name, class: "control-label col-md-3"
+    .col-md-7
+      = f.text_field :user_name, class: 'form-control col-md-7 col-xs-12'
+  .form-group
+    = f.label :user_username, class: "control-label col-md-3"
+    .col-md-7
+      = f.text_field :user_username, class: 'form-control col-md-7 col-xs-12'
+  .form-group
+    = f.label :likes, class: "control-label col-md-3"
+    .col-md-7
+      = f.number_field :likes, class: 'form-control col-md-7 col-xs-12'
+  .form-group
+    = f.label :comments, class: "control-label col-md-3"
+    .col-md-7
+      = f.number_field :comments, class: 'form-control col-md-7 col-xs-12'
+  .form-group
+    = f.label :approved, class: "control-label col-md-3"
+    .col-md-7
+      = f.select :approved, [['Aprobado', true], ['No aprobado', false]], {}, class: 'form-control col-md-7 col-xs-12'
+  .form-group
+    %p.control-label.col-md-3
+      %b Imagen
+    .col-md-7
+      - if @instagram.image_url?
+        .col-md-7.col-xs-12
+          = link_to @instagram.link do
+            = image_tag @instagram.image_url, class: 'img-responsive'
+  .ln_solid
+  .form-group
+    .col-md-9.col-sm-9.col-xs-12.col-md-offset-3
+      %a.btn.btn-primary{ href: admin_totem_path(@instagram.totem), data: { confirm: I18n.t('destroy_confirmation') } }= I18n.t('cancel')
+      = f.submit I18n.t('save'), class: 'btn btn-success'

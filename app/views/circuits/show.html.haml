@@ -1,0 +1,67 @@
+#circuit
+  .container-fluid.header-bg{ style: "background-image: url('#{@circuit.header_image.url(:original)}');"}
+    .container
+      .content-header
+        %h1
+          = @circuit.name
+          %span Circuito MX
+        .separator
+        %p= @circuit.subtitle
+        %a.btn.btn-success{href: discover_circuit_path(@circuit) }= "Conoce #{@circuit.name}"
+  .circuit-invite.text-center
+    #map
+    %h3= "Circuito MX: #{@circuit.name}"
+    %p= image_tag "shared/circuit_bar.png"
+    %a.btn.btn-success{ href: circuit_totem_path(Circuit.first, Circuit.first.totems.first) } Comienza tu ruta
+  .container.totems-container
+    %h2.text-center
+      = image_tag "circuits/indicator.png"
+      Totems
+    - @circuit.totems.each_slice(3).each do |totem_group|
+      .row
+        - totem_group.each do |totem|
+          .col-md-4
+            .well
+              = link_to circuit_totem_path(totem.circuit, totem) do
+                = image_tag totem.main_image.url(:original), class: "img-responsive"
+                %p= totem.name
+- content_for :scripts do
+  :javascript
+    var map;
+    $(document).on("turbolinks:load", function(){
+      map = new GMaps({
+        div: '#map'
+      });
+    });
+
+  - waypoints = []
+  - @circuit.totems.each do |totem|
+    - waypoints << { "location": "#{totem.latitude},#{totem.longitude}" }
+    :javascript
+      $(document).on("turbolinks:load", function(){
+        map.addMarker({
+          lat: "#{totem.latitude}",
+          lng: "#{totem.longitude}",
+          title: "#{totem.name}",
+          infoWindow: {
+            content: "<a href='#{circuit_totem_url(@circuit, totem)}' style='font-weight: 600;'>#{totem.name}</a>"
+          }
+        });
+      });
+  :javascript
+    $(document).on("turbolinks:load", function(){
+      map.fitZoom();
+    });
+  - origin = waypoints.shift[:location].split(",")
+  - destination = waypoints.pop[:location].split(",")
+  :javascript
+    $(document).on("turbolinks:load", function(){
+      var origin = ["#{origin[0]}", "#{origin[1]}"];
+      var destination = ["#{destination[0]}", "#{destination[1]}"];
+      map.drawRoute({
+        origin: origin,
+        destination: destination,
+        waypoints: #{waypoints.to_json.html_safe},
+        travelMode: 'walking'
+      });
+    });

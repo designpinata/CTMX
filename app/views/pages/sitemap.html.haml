@@ -1,0 +1,18 @@
+- content_for :title, "Mapa de sitio"
+- content_for :inverse, true
+#page
+  .container
+    .markdown-content.no-padding
+      %h1= yield :title
+      %h2 Circuitos y totems
+      %ul
+        - @circuits.each do |circuit|
+          %li
+            = link_to circuit.name, circuit
+            %ul
+              - circuit.totems.each do |totem|
+                %li= link_to totem.name, circuit_totem_path(circuit, totem)
+      %h2 Páginas
+      %ul
+        - @pages.each do |page|
+          %li= link_to page.title, page

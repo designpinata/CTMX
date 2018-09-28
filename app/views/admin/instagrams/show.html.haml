@@ -1,0 +1,46 @@
+- content_for :title, "Foto de instagram ##{@instagram.id}"
+.page-title
+  .title_left
+    %h3= yield :title
+  .title_right
+    .pull-right.text-right
+      %a.btn.btn-primary{ href: admin_totem_path(@instagram.totem) }= I18n.t('back')
+      %a.btn.btn-success{href: edit_admin_totem_instagram_path(@instagram.totem, @instagram)}= I18n.t('edit')
+.clearfix
+.row
+  .col-md-12.col-sm-12.col-xs-12
+    .x_panel
+      .x_content
+        %table.table
+          %tbody
+            %tr
+              %th Totem
+              %td= @instagram.totem.name
+            %tr
+              %th Nombre
+              %td= @instagram.user_name
+            %tr
+              %th Usuario
+              %td= @instagram.user_username
+            %tr
+              %th Likes
+              %td= @instagram.likes
+            %tr
+              %th Comentarios
+              %td= @instagram.comments
+            %tr
+              %th Aprobado
+              %td= @instagram.status
+            %tr
+              %th Creado el
+              %td= l @instagram.created_at, format: :long
+            %tr
+              %th Última actualización
+              %td
+                hace
+                = distance_of_time_in_words_to_now(@instagram.updated_at)
+            %tr
+              %th Foto
+              %td
+                = link_to @instagram.link do
+                  = image_tag @instagram.image_url, class: 'img-responsive'

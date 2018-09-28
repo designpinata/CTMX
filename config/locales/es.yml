@@ -1,0 +1,49 @@
+es:
+  helpers:
+    label:
+      totem:
+        name: "Nombre"
+        description: "Descripción"
+        shortcut: "Identificador"
+        circuit: "Circuito"
+        location: "Dirección automática"
+        infographic: "Infografía"
+        main_image: "Imágen principal"
+        header_image: "Imágen de cabecera"
+        infographic_text: "Texto del botón infografía"
+        manual_address: "Dirección manual"
+        hashtag: "Hashtag"
+      circuit:
+        name: "Nombre"
+        subtitle: "Subtítulo"
+        shortcut: "Identificador"
+        content_title: Título
+        content_subtitle: Subtítulo
+        content: Contenido
+        header_image: Imágen de cabecera
+        content_header_image: Imágen de cabecera para contenido
+      tip:
+        content: Contenido
+        rate: Calificación
+        approved: Aprobado
+      page:
+        title: Título
+      image:
+        title: Título
+        image: Imágen
+  send: Enviar
+  send_poll: Enviar ahora
+  new: Nuevo
+  show: Ver
+  edit: Editar
+  destroy: Borrar
+  destroy_confirmation: ¿Estás seguro?
+  cancel: Cancelar
+  reset: Reset
+  save: Guardar
+  back: Regresar
+  disapprove: Desaprobar
+  approve: Aprobar
+  time:
+    formats:
+      long: "%-d de %B del %Y a las %H:%M"

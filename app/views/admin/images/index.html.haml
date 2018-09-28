@@ -1,0 +1,38 @@
+- content_for :title, "Listado de imágenes"
+.page-title
+  .title_left
+    %h3= yield :title
+  .title_right
+    .pull-right.text-right
+      %a.btn.btn-primary(href="#{new_admin_image_path}")
+        %i.fa.fa-plus
+        Crear nueva
+.clearfix
+.row
+  .col-md-12.col-sm-12.col-xs-12
+    .x_panel
+      .x_content
+        .table-responsive
+          %table.table.table-hover
+            %thead
+              %tr
+                %th #
+                %th Título
+                %th URL
+                %th Acciones
+            %tbody
+              - @images.each do |image|
+                %tr
+                  %td= image.id
+                  %td= image.title
+                  %td= image.image.url(:original)
+                  %td
+                    = link_to admin_image_path(image), class: "btn btn-primary btn-xs" do
+                      %i.fa.fa-folder
+                      = I18n.t('show')
+                    = link_to edit_admin_image_path(image), class: "btn btn-info btn-xs" do
+                      %i.fa.fa-pencil
+                      = I18n.t('edit')
+                    = link_to admin_image_path(image), method: :delete, data: { confirm: I18n.t('destroy_confirmation') }, class: "btn btn-danger btn-xs" do
+                      %i.fa.fa-trash-o
+                      = I18n.t('destroy')

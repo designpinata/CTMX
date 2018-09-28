@@ -1,0 +1,10 @@
+- content_for :title, "Editar Circuito"
+.page-title
+  .title_left
+    %h3= yield :title
+.clearfix
+.row
+  .col-md-12.col-sm-12.col-xs-12
+    .x_panel
+      .x_content
+        = render 'form'

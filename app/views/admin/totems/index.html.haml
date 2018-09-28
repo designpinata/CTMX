@@ -1,0 +1,46 @@
+- content_for :title, "Listado de Totems"
+.page-title
+  .title_left
+    %h3= yield :title
+  .title_right
+    .pull-right.text-right
+      %a.btn.btn-primary(href="#{new_admin_totem_path}")
+        %i.fa.fa-plus
+        Crear nuevo
+.clearfix
+.row
+  .col-md-12.col-sm-12.col-xs-12
+    .x_panel
+      .x_content
+        .table-responsive
+          %table.table.table-hover
+            %thead
+              %tr
+                %th #
+                %th Identificador
+                %th Nombre
+                %th Circuito
+                %th Dirección
+                %th URL corta
+                %th # Instagram
+                %th Acciones
+            %tbody
+              - @totems.each_with_index do |totem, i|
+                %tr
+                  %td= i + 1
+                  %td= totem.shortcut
+                  %td= totem.name
+                  %td= totem.circuit.name
+                  %td= totem.manual_address
+                  %td= link_to totem_shortcut_url(totem.circuit.shortcut, totem.shortcut, :only_path => false), totem_shortcut_url(totem.circuit.shortcut, totem.shortcut, :only_path => false)
+                  %td= totem.instagrams.count
+                  %td
+                    = link_to admin_totem_path(totem), class: "btn btn-primary btn-xs" do
+                      %i.fa.fa-folder
+                      = I18n.t('show')
+                    = link_to edit_admin_totem_path(totem), class: "btn btn-info btn-xs" do
+                      %i.fa.fa-pencil
+                      = I18n.t('edit')
+                    = link_to admin_totem_path(totem), method: :delete, data: { confirm: I18n.t('destroy_confirmation') }, class: "btn btn-danger btn-xs" do
+                      %i.fa.fa-trash-o
+                      = I18n.t('destroy')

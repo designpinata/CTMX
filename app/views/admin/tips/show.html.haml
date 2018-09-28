@@ -1,0 +1,35 @@
+- content_for :title, "Tip ##{@tip.id}"
+.page-title
+  .title_left
+    %h3= yield :title
+  .title_right
+    .pull-right.text-right
+      %a.btn.btn-primary{ href: admin_totem_path(@tip.totem) }= I18n.t('back')
+      %a.btn.btn-success{href: edit_admin_totem_tip_path(@tip.totem, @tip)}= I18n.t('edit')
+.clearfix
+.row
+  .col-md-12.col-sm-12.col-xs-12
+    .x_panel
+      .x_content
+        %table.table
+          %tbody
+            %tr
+              %th Totem
+              %td= @tip.totem.name
+            %tr
+              %th Contenido
+              %td= @tip.content
+            %tr
+              %th Calificación
+              %td= @tip.rate
+            %tr
+              %th Aprobado
+              %td= @tip.status
+            %tr
+              %th Creado el
+              %td= l @tip.created_at, format: :long
+            %tr
+              %th Última actualización
+              %td
+                hace
+                = distance_of_time_in_words_to_now(@tip.updated_at)
