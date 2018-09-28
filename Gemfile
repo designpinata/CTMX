@@ -19,6 +19,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'haml-rails'
 gem 'geocoder'
 gem 'devise'
+gem 'devise-bootstrap-views'
 gem 'ffaker'
 gem 'gentelella-rails'
 gem 'rails-i18n', '~> 5.0.0'
@@ -30,7 +31,8 @@ gem 'acts-as-taggable-on', github: 'mbleigh/acts-as-taggable-on'
 gem 'bootstrap-sass', '~> 3.3.7'
 gem "font-awesome-rails"
 gem 'paperclip'
-gem 'aws-sdk', '< 3.0'
+gem 'aws-sdk'
+gem 'aws-sdk-s3'
 gem 'instagram_api_client'
 
 group :development, :test do

@@ -15,7 +15,7 @@
     .container.body
       .main_container
         - flash.each do |key, value|
-          %div{:class => flash_class(key) + " alert alert-dismissible fade in", :role => "alert"}
+          %div{:class => "#{flash_class(key)} alert alert-dismissible fade in", :role => "alert"}
             %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
               %span{"aria-hidden" => "true"} ×
             = value

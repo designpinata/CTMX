@@ -55,6 +55,7 @@ class Totem < ApplicationRecord
 
   def update_instagram
     return false if self.hashtag.nil?
+    raise InstagramApi.tag("people").recent_media.inspect
     data = InstagramApi.tag(self.hashtag).recent_media.data
     result_obj = []
     data.each do |obj|

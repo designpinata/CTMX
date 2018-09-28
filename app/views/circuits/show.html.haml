@@ -1,3 +1,4 @@
+- content_for :title, @circuit.name
 #circuit
   .container-fluid.header-bg{ style: "background-image: url('#{@circuit.header_image.url(:original)}');"}
     .container
@@ -24,7 +25,7 @@
             .well
               = link_to circuit_totem_path(totem.circuit, totem) do
                 = image_tag totem.main_image.url(:original), class: "img-responsive"
-                %p= totem.name
+                %p.well-name= totem.name
 - content_for :scripts do
   :javascript
     var map;

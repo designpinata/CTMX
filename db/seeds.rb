@@ -66,5 +66,8 @@ puts "Creating Static Pages"
 Page.create(title: "Contacto", content: open("https://jaspervdj.be/lorem-markdownum/markdown.txt", { ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE }) { |io| io.read })
 Page.create(title: "Políticas de Privacidad", content: open("https://jaspervdj.be/lorem-markdownum/markdown.txt", { ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE }) { |io| io.read })
 
+puts "Creating Admin Users"
+User.create(email: 'abarcadabra@gmail.com', password: 'pepitotijeras', admin: true)
+
 puts
 puts "All done, baws."

@@ -12,14 +12,15 @@
         = image_tag "home/guy.png", class: 'guy'
   .subheader
     %h3 ¡Descubre y comparte tips del destino con otras personas!
-    %a{href: "#"} ¡Inicia tu circuitO!
+    - circuit = Circuit.first
+    %a{:href => circuit_path(circuit)} ¡Inicia tu circuitO!
   .container.content
     .row
       .col-md-2
         = image_tag "home/patzcuaro-logo.png", class: 'img-responsive'
       .col-md-10.border.big
         %h3
-          EL MÁGICO!
+          EL MÁGICO
           %b PÁTZCUARO
         %p Explora el misticismo y la atmosféra de éste bello pueblo mágico michoacano, centro ceremonial del señorío de los Huacusechas,  la tierra de los indígenas que los españoles llamaron tarascos, la cultura purépecha permanece viva en sus templos, en su lengua, en sus sabores, artesanías y tradiciones de los habitantes que con mucho orgullo transmiten sus raíces indígenas.
     .row
@@ -33,32 +34,3 @@
       .col-md-12
         %h3= "Inicia Circuito MX #{@main_circuit.name}"
         %p= image_tag "shared/circuit_bar.png"
-    .row
-      .col-md-12
-        .row
-          .col-md-2
-          .col-md-8.text-center.instagram-container
-            %h2 #CIRCUITOSTURISTICOSMX
-            .row
-              .col-md-4
-                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
-              .col-md-4
-                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
-              .col-md-4
-                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
-            .row
-              .col-md-4
-                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
-              .col-md-4
-                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
-              .col-md-4
-                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
-            .row
-              .col-md-4
-                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
-              .col-md-4
-                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
-              .col-md-4
-                = image_tag "http://via.placeholder.com/300x300", class: 'img-responsive'
-          .col-md-2
-  .background-margin

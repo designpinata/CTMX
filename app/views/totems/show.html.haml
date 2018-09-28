@@ -84,10 +84,17 @@
       .modal-content
         %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
         .modal-body.text-center
-          = image_tag @totem.infographic(:original), class: 'img-responsive'
+          .logo
+            = image_tag "logo.png"
+          .image
+            = image_tag @totem.infographic(:original), class: 'img-responsive'
+          #share
 - content_for :scripts do
   %script{:async => "", :defer => "defer", :src => "//www.instagram.com/embed.js"}
   :javascript
+    $("#share").jsSocials({
+      shares: ["whatsapp", "twitter", "facebook"]
+    });
     $(window).load(function(){
       $('.grid').masonry({
         itemSelector: '.grid-item', // use a separate class for itemSelector, other than .col-
@@ -171,5 +178,12 @@
           strokeColor: '#CF1330',
           strokeWeight: 6
         });
+        var latlngs = [{ lat: "#{@totem.latitude}", lng: "#{@totem.longitude}" }, {lat: "#{@totem.next.latitude}", lng: "#{@totem.next.longitude}" }];
+        var bounds = [];
+        for (var i in latlngs) {
+          var latlng = new google.maps.LatLng(latlngs[i].lat, latlngs[i].lng);
+          bounds.push(latlng);
+        }
+        map.fitLatLngBounds(bounds);
         map.fitZoom();
       });

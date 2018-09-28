@@ -63,7 +63,7 @@ class Admin::TotemsController < AdminController
       if @totem.update_instagram
         format.html { redirect_to admin_totem_path(@totem),  flash: { success: 'Las fotos de instagram se actualizaron con éxito!' } }
       else
-        format.html { redirect_to admin_totem_path(@totem),  flash: { warning: 'Las fotos de instagram no se actualizaron' }  }
+        format.html { redirect_to admin_totem_path(@totem),  flash: { error: 'Las fotos de instagram no se actualizaron' }  }
       end
     end
   end

@@ -11,3 +11,13 @@
 @import "circuit";
 @import "totem";
 @import "markdown-content";
+.float-none {
+  float: none;
+}
+
+.panel-heading {
+  padding: 15px;
+  h4 {
+    margin: 0px;
+  }
+}

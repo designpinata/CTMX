@@ -1,16 +1,17 @@
 %nav{ class: "navbar " + ((content_for?(:inverse)) ? "navbar-inverse" : "navbar-default") }
-  .container
-    .navbar-header
-      %button.navbar-toggle.collapsed{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "collapse", :type => "button"}
-        %span.sr-only Toggle navigation
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
-      %a.navbar-brand{:href => root_path } Circuitos Turísticos MX
-    #navbar.navbar-collapse.collapse
-      %ul.nav.navbar-nav.navbar-right
-        %li
-          - circuit = Circuit.first
-          %a{:href => circuit_path(circuit)}= "Circuito #{circuit.name}"
-        %li
-          = link_to "Contacto", Page.find_by(slug: 'contacto')
+  .navbar-header
+    %button.navbar-toggle.collapsed{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "collapse", :type => "button"}
+      %span.sr-only Toggle navigation
+      %span.icon-bar
+      %span.icon-bar
+      %span.icon-bar
+    %a.navbar-brand{:href => root_path }=image_tag "logo.png"
+  #navbar.navbar-collapse.collapse
+    %ul.nav.navbar-nav.navbar-right
+      %li
+        - circuit = Circuit.first
+        %a{:href => circuit_path(circuit)}
+          = "Circuito #{circuit.name}"
+      %li
+        = link_to Page.find_by(slug: 'contacto') do
+          Contacto

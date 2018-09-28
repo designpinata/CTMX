@@ -95,6 +95,9 @@
     background-color: #FFF;
     .row {
       padding: 15px 0;
+      .col-md-4 {
+        padding: 7.5px 15px;
+      }
     }
   }
   .background-margin {

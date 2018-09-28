@@ -8,7 +8,7 @@
       .modal-body
         %img.enlargeImageModalSource{:src => "", :style => "width: 100%;"}/
 #circuit
-  .container-fluid.header-bg{ style: "background-image: url('#{@circuit.header_image.url(:original)}');"}
+  .container-fluid.header-bg{ style: "background-image: url('#{@circuit.content_header_image.url(:original)}');"}
     .container
       .content-header
         %h1= yield :title
