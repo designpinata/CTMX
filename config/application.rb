@@ -17,7 +17,8 @@ module CtmxApp
     I18n.enforce_available_locales = false
     I18n.config.available_locales = :es
     config.i18n.default_locale = :es
-
+    config.assets.initialize_on_precompile = false # Moved in app class
+    config.active_record.raise_in_transactional_callbacks = true
     # Adds fonts path
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
   end
